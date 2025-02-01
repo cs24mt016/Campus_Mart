@@ -1,0 +1,594 @@
+w<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+    <link rel="stylesheet" href="../static/Payment.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="payment-body">
+        <div class="container">
+            <div class="payment-logo">
+                <img src="./payment_logo.jpeg" alt="Payment Gateway Logo" class="logo">
+                <h2>Payment Gateway</h2>
+            </div>
+            <form id="payment-form" class="payment-form">
+                <h1>Complete Registration Payment</h1>
+                
+                <div class="form-section">
+                    <h2>Personal details</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Address line</label>
+                            <input type="text" placeholder="P.O.Box 1223">
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" placeholder="Arusha, Tanzania">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal code</label>
+                            <input type="text" placeholder="00000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Payment methods</h2>
+                    <div class="form-group">
+                        <label>Card Details</label>
+                        <div id="card-element" class="card-element"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="next-button">Pay Now</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const stripe = Stripe('pk_test_51QnPGKAykYnnfnVtOMMCqTlVu5GEPqdTIDO3eSWbDQMubGfKnwuK4N2ox3aspy2Ah9IjSeZ8nvkubqQieiwm4ixB00kG3yKqFB');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+
+        document.getElementById('payment-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            });
+
+            if (error) {
+                console.error(error);
+            } else {
+                console.log('Payment Method Created:', paymentMethod);
+                alert('Payment successful');
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+    <link rel="stylesheet" href="../static/Payment.css">
+    <link rel="stylesheet" href="./assets/css/Payment.css">
+    <link rel="stylesheet" href="./assets/css/NavbarFirst.css">
+    <link rel="stylesheet" href="./assets/css/NavbarSecond.css">
+    <link rel="stylesheet" href="./assets/css/Footer.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const urlParams1 = new URLSearchParams(window.location.search);
+        const sellerId2 = urlParams1.get('seller_id');
+        console.log(sellerId2);
+        
+        const amount2=urlParams1.get('amount')
+        console.log(amount2);
+        
+    </script>
+</head>
+<body>
+    <div class="payment-body">
+        <div class="container">
+            <div class="payment-logo">
+                <img src="./assets/images/logo/ruppee.png" alt="Payment Gateway Logo" class="logo">
+                <h2>Payment Gateway</h2>
+            </div>
+            <form id="payment-form" class="payment-form">
+                <h1>Complete Registration Payment</h1>
+
+                <div class="form-section">
+                    <h2>Personal Details</h2>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="full-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address Line</label>
+                        <input type="text" id="address" placeholder="123 Main St" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <input type="text" id="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" id="postal-code" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Total Amount</label>
+                        <input type="text" id="=amount" value="₹ 13000" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Payment Method</h2>
+                    <div class="form-group">
+                        <label>Card Details</label>
+                        <div id="card-element" class="card-element"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="next-button">Pay Now</button>
+                <div id="payment-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Access the seller_id and amount parameters
+        const sellerId = urlParams.get('seller_id');
+        const amount = urlParams.get('amount');
+        const stripe = Stripe('pk_test_51QnPGKAykYnnfnVtOMMCqTlVu5GEPqdTIDO3eSWbDQMubGfKnwuK4N2ox3aspy2Ah9IjSeZ8nvkubqQieiwm4ixB00kG3yKqFB');
+        const elements = stripe.elements();
+        const card = elements.create('card');
+        card.mount('#card-element');
+
+        document.getElementById('payment-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const fullName = document.getElementById("full-name").value;
+            const email = document.getElementById("email").value;
+            const address = document.getElementById("address").value;
+            const city = document.getElementById("city").value;
+            const state = document.getElementById("state").value;
+            const postalCode = document.getElementById("postal-code").value;
+            const paymentMessage = document.getElementById("payment-message");
+            const amountData=amount;
+            // const fullName = "John Doe";
+            //   const email = "john@example.com";
+              const accountNumber = "1234567890";
+              const ifscCode = "HDFC0000123";
+              const receiverAccount = "9876543210";
+              const receiverIFSC = "ICIC0000456";
+            //   const address = "123 Main St";
+            //   const city = "Mumbai";
+            //   const state = "Maharashtra";
+            //   const postalCode = "400001";
+
+            if (!fullName || !email || !address || !city || !state || !postalCode) {
+                paymentMessage.textContent = "Please fill in all fields.";
+                paymentMessage.style.color = "red";
+                return;
+            }
+
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+                billing_details: {
+                    name: fullName,
+                    email: email,
+                    address: {
+                        line1: address,
+                        city: city,
+                        state: state,
+                        postal_code: postalCode,
+                        country: 'US',
+                    }
+                },
+            });
+
+            if (error) {
+                paymentMessage.textContent = error.message;
+                paymentMessage.style.color = "red";
+            } else {
+                console.log('Payment Method Created:', paymentMethod);
+                paymentMessage.textContent = "Payment successful!";
+                paymentMessage.style.color = "green";
+
+
+                // // Send data to backend for processing
+                // fetch("http://localhost:3000/process-payment", {
+                //     method: "POST",
+                //     headers: { "Content-Type": "application/json" },
+                //     body: JSON.stringify({
+                //         paymentMethodId: paymentMethod.id,
+                //         amount: 1000,  // Amount in cents ($10)
+                //         customerDetails: {
+                //             name: fullName,
+                //             email: email,
+                //             address: {
+                //                 line1: address,
+                //                 city: city,
+                //                 state: state,
+                //                 postal_code: postalCode,
+                //                 country: 'US',
+                //             }
+                //         }
+                //     })
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     if (data.success) {
+                //         paymentMessage.textContent = "Payment successful!";
+                //         paymentMessage.style.color = "green";
+                //     } else {
+                //         paymentMessage.textContent = "Payment failed: " + data.error;
+                //         paymentMessage.style.color = "red";
+                //     }
+                // })
+                // .catch(error => {
+                //     console.error("Error:", error);
+                //     paymentMessage.textContent = "Error processing payment.";
+                //     paymentMessage.style.color = "red";
+                // });
+            }
+
+            const { error2, paymentMethod2 } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+                billing_details: {
+                    name: fullName,
+                    email: email,
+                    address: {
+                        line1: address,
+                        city: city,
+                        state: state,
+                        postal_code: postalCode,
+                        country: 'US',
+                    }
+                },
+            });
+
+            if (error) {
+                paymentMessage.textContent = error.message;
+                paymentMessage.style.color = "red";
+            } else {
+                console.log('Payment Method Created:', paymentMethod);
+                paymentMessage.textContent = "Payment successful!";
+                paymentMessage.style.color = "green";
+                window.location.href =`message.html?seller_id=${window.seller_id}`;
+
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+//  <!-- <!DOCTYPE html>
+//  <html lang="en">
+//  <head>
+//      <meta charset="UTF-8">
+//      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//      <title>Payment Gateway</title>
+//      <link rel="stylesheet" href="../static/Payment.css">
+//      <script src="https://js.stripe.com/v3/"></script>
+//  </head>
+//  <body>
+//      <div class="payment-body">
+//          <div class="container">
+//              <div class="payment-logo">
+//                  <img src="./payment_logo.jpeg" alt="Payment Gateway Logo" class="logo">
+//                  <h2>Payment Gateway</h2>
+//              </div>
+//              <form id="payment-form" class="payment-form">
+//                  <h1>Complete Registration Payment</h1>
+ 
+//                  <div class="form-section">
+//                      <h2>Personal Details</h2>
+//                      <div class="form-group">
+//                          <label>Full Name</label>
+//                          <input type="text" id="full-name" placeholder="John Doe" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>Email</label>
+//                          <input type="email" id="email" placeholder="john@example.com" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>Account Number</label>
+//                          <input type="text" id="account-number" placeholder="1234567890" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>IFSC Code</label>
+//                          <input type="text" id="ifsc-code" placeholder="HDFC0000123" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>Receiver Account Number</label>
+//                          <input type="text" id="receiver-account" placeholder="9876543210" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>Receiver IFSC Code</label>
+//                          <input type="text" id="receiver-ifsc" placeholder="ICIC0000456" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>Address Line</label>
+//                          <input type="text" id="address" placeholder="123 Main St" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>City</label>
+//                          <input type="text" id="city" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>State</label>
+//                          <input type="text" id="state" required>
+//                      </div>
+//                      <div class="form-group">
+//                          <label>Postal Code</label>
+//                          <input type="text" id="postal-code" required>
+//                      </div>
+//                  </div>
+ 
+//                  <div class="form-section">
+//                      <h2>Payment Method</h2>
+//                      <div class="form-group">
+//                          <label>Card Details</label>
+//                          <div id="card-element" class="card-element"></div>
+//                      </div>
+//                  </div>
+ 
+//                  <button type="submit" class="next-button">Pay Now</button>
+//                  <div id="payment-message"></div>
+//              </form>
+//          </div>
+//      </div>
+ 
+//      <script>
+//          const stripe = Stripe('pk_test_51QnPGKAykYnnfnVtOMMCqTlVu5GEPqdTIDO3eSWbDQMubGfKnwuK4N2ox3aspy2Ah9IjSeZ8nvkubqQieiwm4ixB00kG3yKqFB');
+//          const elements = stripe.elements();
+//          const card = elements.create('card');
+//          card.mount('#card-element');
+ 
+//          document.getElementById('payment-form').addEventListener('submit', async (event) => {
+//              event.preventDefault();
+//              const paymentMessage = document.getElementById("payment-message");
+ 
+//              // Collect user inputs
+//              const fullName = document.getElementById("full-name").value;
+//              const email = document.getElementById("email").value;
+//              const accountNumber = document.getElementById("account-number").value;
+//              const ifscCode = document.getElementById("ifsc-code").value;
+//              const receiverAccount = document.getElementById("receiver-account").value;
+//              const receiverIFSC = document.getElementById("receiver-ifsc").value;
+//              const address = document.getElementById("address").value;
+//              const city = document.getElementById("city").value;
+//              const state = document.getElementById("state").value;
+//              const postalCode = document.getElementById("postal-code").value;
+ 
+//              if (!fullName || !email || !accountNumber || !ifscCode || !receiverAccount || !receiverIFSC || !address || !city || !state || !postalCode) {
+//                  paymentMessage.textContent = "Please fill in all fields.";
+//                  paymentMessage.style.color = "red";
+//                  return;
+//              }
+ 
+//              // First Payment: Capturing Account and IFSC in Metadata
+//              const { error: error1, paymentMethod: paymentMethod1 } = await stripe.createPaymentMethod({
+//                  type: 'card',
+//                  card: card,
+//                  billing_details: {
+//                      name: fullName,
+//                      email: email,
+//                      address: {
+//                          line1: address,
+//                          city: city,
+//                          state: state,
+//                          postal_code: postalCode,
+//                          country: 'IN',
+//                      },
+//                  },
+//                  metadata: {
+//                      account_number: accountNumber,
+//                      ifsc_code: ifscCode
+//                  }
+//              });
+ 
+//              if (error1) {
+//                  paymentMessage.textContent = error1.message;
+//                  paymentMessage.style.color = "red";
+                 
+//              }
+ 
+//              console.log("✅ First Payment Success: ", paymentMethod1);
+ 
+//              // Second Payment: Capturing Sender & Receiver Account Details in Metadata
+//              const { error: error2, paymentMethod: paymentMethod2 } = await stripe.createPaymentMethod({
+//                  type: 'card',
+//                  card: card,
+//                  billing_details: {
+//                      name: fullName,
+//                      email: email,
+//                      address: {
+//                          line1: address,
+//                          city: city,
+//                          state: state,
+//                          postal_code: postalCode,
+//                          country: 'IN',
+//                      },
+//                  },
+//                  metadata: {
+//                      sender_account: accountNumber,
+//                      sender_ifsc: ifscCode,
+//                      receiver_account: receiverAccount,
+//                      receiver_ifsc: receiverIFSC
+//                  }
+//              });
+ 
+//              if (error2) {
+//                  paymentMessage.textContent = error2.message;
+//                  paymentMessage.style.color = "red";
+                 
+//              }
+ 
+//              console.log("✅ Second Payment Success: ", paymentMethod2);
+ 
+//              paymentMessage.textContent = "Both Payments Successful!";
+//              paymentMessage.style.color = "green";
+//          });
+//      </script>
+//  </body>
+//  </html>
+//   -->
+
+<!-- 
+//   <!DOCTYPE html>
+//   <html lang="en">
+//   <head>
+//       <meta charset="UTF-8">
+//       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//       <title>Payment Gateway</title>
+//       <link rel="stylesheet" href="../static/Payment.css">
+//       <script src="https://js.stripe.com/v3/"></script>
+//   </head>
+//   <body>
+//       <div class="payment-body">
+//           <div class="container">
+//               <div class="payment-logo">
+//                   <img src="./payment_logo.jpeg" alt="Payment Gateway Logo" class="logo">
+//                   <h2>Payment Gateway</h2>
+//               </div>
+//               <form id="payment-form" class="payment-form">
+//                   <h1>Complete Registration Payment</h1>
+  
+//                   <div class="form-section">
+//                       <h2>Payment Method</h2>
+//                       <div class="form-group">
+//                           <label>Card Details</label>
+//                           <div id="card-element" class="card-element"></div>
+//                       </div>
+//                   </div>
+  
+//                   <button type="submit" class="next-button">Pay Now</button>
+//                   <div id="payment-message"></div>
+//               </form>
+//           </div>
+//       </div>
+  
+//       <script>
+//           const stripe = Stripe('pk_test_51QnPGKAykYnnfnVtOMMCqTlVu5GEPqdTIDO3eSWbDQMubGfKnwuK4N2ox3aspy2Ah9IjSeZ8nvkubqQieiwm4ixB00kG3yKqFB');
+//           const elements = stripe.elements();
+//           const card = elements.create('card');
+//           card.mount('#card-element');
+  
+//           document.getElementById('payment-form').addEventListener('submit', async (event) => {
+//               event.preventDefault();
+//               const paymentMessage = document.getElementById("payment-message");
+//               paymentMessage.textContent = "Processing payment...";
+//               paymentMessage.style.color = "blue";
+  
+//               // ✅ HARDCODED ACCOUNT DETAILS
+//               const fullName = "John Doe";
+//               const email = "john@example.com";
+//               const accountNumber = "1234567890";
+//               const ifscCode = "HDFC0000123";
+//               const receiverAccount = "9876543210";
+//               const receiverIFSC = "ICIC0000456";
+//               const address = "123 Main St";
+//               const city = "Mumbai";
+//               const state = "Maharashtra";
+//               const postalCode = "400001";
+  
+//               // ✅ FIRST PAYMENT: Store Account Number & IFSC Code in Metadata
+//               const { error: error1, paymentMethod: paymentMethod1 } = await stripe.createPaymentMethod({
+//                   type: 'card',
+//                   card: card,
+//                   billing_details: {
+//                       name: fullName,
+//                       email: email,
+//                       address: {
+//                           line1: address,
+//                           city: city,
+//                           state: state,
+//                           postal_code: postalCode,
+//                           country: 'IN',
+//                       },
+//                   },
+//                   metadata: {
+//                       account_number: accountNumber,
+//                       ifsc_code: ifscCode
+//                   }
+//               });
+  
+//               if (error1) {
+//                   paymentMessage.textContent = "Error in First Payment: " + error1.message;
+//                   paymentMessage.style.color = "red";
+//                   return;
+//               }
+  
+//               console.log("✅ First Payment Success: ", paymentMethod1);
+  
+//               // ✅ SECOND PAYMENT: Store Sender & Receiver Account Details in Metadata
+//               const { error: error2, paymentMethod: paymentMethod2 } = await stripe.createPaymentMethod({
+//                   type: 'card',
+//                   card: card,
+//                   billing_details: {
+//                       name: fullName,
+//                       email: email,
+//                       address: {
+//                           line1: address,
+//                           city: city,
+//                           state: state,
+//                           postal_code: postalCode,
+//                           country: 'IN',
+//                       },
+//                   },
+//                   metadata: {
+//                       sender_account: accountNumber,
+//                       sender_ifsc: ifscCode,
+//                       receiver_account: receiverAccount,
+//                       receiver_ifsc: receiverIFSC
+//                   }
+//               });
+  
+//               if (error2) {
+//                   paymentMessage.textContent = "Error in Second Payment: " + error2.message;
+//                   paymentMessage.style.color = "red";
+//                   return;
+//               }
+  
+//               console.log("✅ Second Payment Success: ", paymentMethod2);
+  
+//               paymentMessage.textContent = "Both Payments Successful!";
+//               paymentMessage.style.color = "green";
+//           });
+//       </script>
+   </body>
+//   </html>
+  

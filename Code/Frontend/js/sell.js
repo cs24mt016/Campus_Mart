@@ -28,7 +28,7 @@ async function uploadImages() {
     const grade = parseInt(document.getElementById("grade").value);
     const imageLinks = document.getElementById("imageLinks").value.split('\n').map(link => link.trim()).filter(link => link);
 
-    alert(title,description,sellingPrice,newItemPrice,categoryID,grade,imageLinks);
+    // alert(title,description,sellingPrice,newItemPrice,categoryID,grade,imageLinks);
       // Validation check for empty fields
       if (!title) {
         alert("Please enter a title.");
@@ -83,7 +83,7 @@ async function uploadImages() {
         // Handle the API response
         if (response.ok) {
             const result = await response.json();
-            alert(`Product listed successfully! Listing ID: ${result.listingID}`);
+            alert(`Product listed successfully`);
             document.getElementById("sellForm").reset(); // Reset the form
         } else {
             const error = await response.json();

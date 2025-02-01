@@ -1,0 +1,133 @@
+/* Payment.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.payment-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.payment-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.payment-logo .logo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.payment-logo h2 {
+    font-size: 24px;
+    margin: 10px 0 0;
+    color: #333;
+}
+
+.payment-form h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #444;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section h2 {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.card-element {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fafafa;
+    margin-top: 5px;
+}
+
+.next-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.next-button:hover {
+    background-color: #0056b3;
+}
+
+#payment-message {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: red;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px 20px;
+    }
+
+    .payment-logo .logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .next-button {
+        font-size: 14px;
+    }
+}

@@ -16,7 +16,6 @@ localStorage.setItem('wishListItems',JSON.stringify(wishListItems));
 console.log("hello duniya");
 
 
-
 // Function to display products dynamically
 function displayProducts(dataset) {
     const productBlockContainer = document.querySelector('.productBlockContainer');
@@ -40,7 +39,7 @@ function displayProducts(dataset) {
             productBlock.dataset.listingID = listingID;  // Add dataset attribute to identify the product
 
             productBlock.innerHTML = `
-                <div class="border">
+           <div class="border">
                     <div class="productImage">
                         <img src="${imageURLs[0] ? imageURLs[0] : 'https://images.unsplash.com/photo-1484788984921-03950022c9ef?q=80&w=1232&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}" alt="${title}" width="180" height="180">
                     </div>
@@ -53,7 +52,7 @@ function displayProducts(dataset) {
                         <button type="button" class="deleteButton" data-index="${index}">Delete</button>
                     </div>
                 </div>
-            `;
+        `;
 
             // Append the product block to the container
             productBlockContainer.appendChild(productBlock);
