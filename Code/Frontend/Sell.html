@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS file -->
+    <link rel="stylesheet" href="./assets/css/Sell.css">
+    <link rel="stylesheet" href="./assets/css/NavbarFirst.css">
+    <link rel="stylesheet" href="./assets/css/NavbarSecond.css">
+    <link rel="stylesheet" href="./assets/css/Footer.css">
+
+    <title>Sell</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div id="NavbarFirst"></div>
+    <div id="NavbarSecond" style="display: none;"></div>
+
+    <div class="sell-container">
+        <h2>Sell</h2>
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" style="display: none; text-align: center; font-size: 16px; color: #555;">
+            Uploading... Please wait.
+        </div>
+    
+        <form id="sellForm" class="sell-form" onsubmit="">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" placeholder="Product name" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Selling Price:</label>
+                <input type="number" id="selling_price" name="selling_price" placeholder="Selling price" required step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="new_item_price">New Item Price (optional):</label>
+                <input type="number" id="new_item_price" name="new_item_price" placeholder="New item price" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" placeholder="Description of the product." rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="grade">Grade (1-5):</label>
+                <input type="number" id="grade" name="grade" min="1" max="5" placeholder="Condition grade" required>
+            </div>
+            <div class="form-group">
+                <label for="categoryID">Category:</label>
+                <select id="categoryID" name="categoryID" required>
+                    <option value="1">Electronics</option>
+                    <option value="2">Books</option>
+                    <option value="3">Clothing</option>
+                    <option value="4">Sports</option>
+                    <option value="5">Furniture</option>
+                    <option value="6">Stationery</option>
+                    <option value="7">Gaming</option>
+                    <option value="8">Appliances</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="imageLinks">Image Links:</label>
+                <textarea id="imageLinks" name="imageLinks" placeholder="Enter image URLs, one per line" rows="3" required></textarea>
+                <p class="image-note">Please provide at least 1 image links.</p>
+            </div>
+        </form>
+        <button  class="sell-btn" onclick="uploadImages()">Sell</button>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <div id="Footer"></div>
+    </footer>
+
+    <!-- Javascript file -->
+    <script src="js/HeaderFooter.js"></script>
+    <script src="js/LoginStatus.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/sell.js"></script>
+</body>
+
+</html>

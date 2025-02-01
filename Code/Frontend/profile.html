@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS files -->
+    <link rel="stylesheet" href="./assets/css/profile.css">
+    <link rel="stylesheet" href="./assets/css/NavbarFirst.css">
+    <link rel="stylesheet" href="./assets/css/NavbarSecond.css">
+    <link rel="stylesheet" href="./assets/css/Footer.css">
+
+    <title>Profile</title>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div id="NavbarFirst"></div>
+    <div id="NavbarSecond" style="display: none;"></div>
+
+    <!-- Account Heading -->
+    <h2>Account</h2>
+
+    <div class="account-container">
+        <div class="account-sidebar">
+            <a href="product.html">Account</a>
+            <!-- <a>Transaction</a> -->
+            <a href="ManageListing.html">Manage listing</a>
+            <button class="logout-btn" onclick="signOut()">Logout</button>
+            <p>Your Rating</p>
+            <div class="rating-box" id="ratingBox">Loading...</div>
+        </div>
+
+        <div class="account-details">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="First Last Name" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="email@example.com" readonly>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone number:</label>
+                <input type="text" id="phone" placeholder="1234567890" readonly>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Password" readonly>
+            </div>
+            <!-- <button class="edit-btn">Edit</button> -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div id="Footer"></div>
+    </footer>
+
+    <!-- Javascript files -->
+    <script src="js/HeaderFooter.js"></script>
+    <script src="js/LoginStatus.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+
+</html>

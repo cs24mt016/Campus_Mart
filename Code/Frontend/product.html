@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    
+    <!-- CSS files -->
+    <link rel="stylesheet" href="./assets/css/product.css">
+    <link rel="stylesheet" href="./assets/css/NavbarFirst.css">
+    <link rel="stylesheet" href="./assets/css/NavbarSecond.css">
+    <link rel="stylesheet" href="./assets/css/Footer.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div id="NavbarFirst"></div>
+    <div id="NavbarSecond" style="display: none;"></div>
+
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" style="color: #ADD8E6; text-align: center; font-size: 20px; display: none;">
+        Loading product details...
+    </div>
+
+    <!-- Product Container -->
+    <div class="product-container" id="productContainer" >
+        <!-- Product Image and Seller Info -->
+        <div class="product-image-container">
+            <img id="product-image" src="" alt="Product Image">
+            <div class="seller-info">
+                <p id="seller-name"></p>
+                <p id="seller-rating"></p>
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="product-details">
+            <h2 id="product-title"></h2>
+            <p id="product-price" class="price"></p>
+            <p id="product-description" class="description"></p>
+            <button class="offer-btn" onclick="makeOffer()" style="background-color: #e6e6fa;" >Make an offer</button>
+            <button class="offer-btn" onclick="addToWishlist()" style="background-color: #ffcccc;">Add to Wishlist</button>
+        </div>
+    </div>
+
+  
+    <!-- Footer -->
+    <footer>
+        <div id="Footer"></div>
+    </footer>
+
+    <!-- JavaScript files -->
+    <script src="js/HeaderFooter.js"></script>
+    <script src="js/LoginStatus.js"></script>
+    <script src="js/SignIn.js"></script>
+    <script src="js/Signup.js"></script>
+    
+
+    <!-- Inline JavaScript -->
+    <script>
+        // Function to get the product_id from the URL
+        function getProductIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('product_id');
+        }
+        const isLoggedIn = localStorage.getItem('isLoggedIn')==='1';
+        function makeOffer(){
+            console.log(isLoggedIn);
+            if(isLoggedIn){
+                window.location.href =`message.html?seller_id=${window.seller_id}`;
+            }else{
+                window.location.href =`SignIn.html`;
+            }
+            
+            
+        }
+        
+        // Function to show the loading indicator and hide product container
+        // function showLoading() {
+        //     document.getElementById('loadingIndicator').style.display = 'block';
+        //     document.querySelector('.product-container').style.display = 'none';
+        // }
+
+        // Function to hide the loading indicator and show product container
+        // function hideLoading() {
+        //     document.getElementById('loadingIndicator').style.display = 'none';
+        //     document.querySelector('.product-container').style.display = 'block';
+        // }
+
+        // Function to fetch and display product details
+        async function fetchProductDetails() {
+            const productId = getProductIdFromUrl();
+            window.productId=productId;
+            if (!productId) {
+                console.error('Product ID not found in the URL');
+                return;
+            }
+
+            // Show loading indicator
+            // showLoading();
+
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/products/${productId}`);
+                if (response.ok) {
+                    const product = await response.json();
+                    console.log('Product details:', product);
+                    // alert('responseok');
+                    // Populate the main product image
+                    window.seller_id = product.userID;
+                    const imageURLs = JSON.parse(product.imageURLs);
+                    document.getElementById("product-image").src = imageURLs[0] ? imageURLs[0]:  'https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg';
+                    document.getElementById("product-title").textContent = product.title;
+                    document.getElementById("product-price").textContent = `₹ ${product.selling_price}`;
+                    document.getElementById("product-description").textContent = product.description;
+                    document.getElementById("seller-name").textContent = `Seller ID: ${product.userID} : ${product.listingID}`; // Replace with actual seller info if available
+                    document.getElementById("seller-rating").textContent = "Seller's Rating"; // Replace with real rating data if available
+
+                    // Append additional images within the product-image-container
+                    // const imageContainer = document.querySelector('.product-image-container');
+                    // product.imageURLs.slice(1).forEach((url) => {
+                    //     const additionalImg = document.createElement('img');
+                    //     additionalImg.src = url;
+                    //     additionalImg.alt = product.title;
+                    //     additionalImg.width = 150; // Adjust size as needed
+                    //     additionalImg.style.marginRight = '10px'; // Space between images
+                    //     additionalImg.style.marginTop = '10px'; // Space below the main image
+                    //     imageContainer.appendChild(additionalImg);
+                    // });
+
+                    // Hide loading indicator and show product details
+                    // hideLoading();
+                } else {
+                    console.error('Failed to fetch product details:', response.statusText);
+                    // document.getElementById("loadingIndicator").textContent = "Product not found.";
+                    // hideLoading();
+                }
+            } catch (error) {
+                console.error('Error fetching product details:', error);
+                // document.getElementById("loadingIndicator").textContent = "An error occurred. Please try again.";
+                // hideLoading();
+            }
+        }
+
+        // mark as favorite
+        async function addToWishlist() {
+            const productId = getProductIdFromUrl();
+            // alert(productId);
+            const user = JSON.parse(localStorage.getItem('user'));
+            const userId = user ? user.userID : null;
+            alert(userId + " , " +productId);
+            // alert((userId));
+            if (!userId) {
+                alert("Please log in to add products to your wishlist.");
+                window.location.href ="SignIn.html";
+                return;
+            }
+
+            try {
+                // Make the API call to add the product to the wishlist
+                const response = await fetch('http://127.0.0.1:5000/wishlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "userID": userId,
+                        "listingID": productId,
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message); // Notify the user of success
+
+                    // Update wishListItems in localStorage
+                
+                let wishListItems = JSON.parse(localStorage.getItem('wishListItems')) || [];
+                // Ensure wishListItems is an array
+                    if (!Array.isArray(wishListItems)) {
+                        wishListItems = [];
+                    }
+
+                    if (!wishListItems.includes(productId)) {
+                        wishListItems.push(productId);
+                        localStorage.setItem('wishListItems', JSON.stringify(wishListItems));
+                        console.log('Wishlist updated:', wishListItems);
+                    } else {
+                        const errorResult = await response.json();
+                        alert(`Failed to add to wishlist: ${errorResult.error}`);
+                    }
+                } 
+            }catch (error) {
+                console.error(`Error adding product to wishlist: ${error}`);
+                alert(`error: ${error}`);
+            }
+        }
+        // Call the function to fetch and display product details on page load
+        document.addEventListener('DOMContentLoaded', fetchProductDetails);
+    </script>
+</body>
+
+</html>
